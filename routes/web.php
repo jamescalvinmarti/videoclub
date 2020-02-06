@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@getHome');
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
@@ -21,6 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('catalog', 'CatalogController');
     Route::get('/catalog_rent/{id}', 'CatalogController@rent')->name('catalogRent');
     Route::get('/catalog_return/{id}', 'CatalogController@return')->name('catalogReturn');
+
+    Route::post('/review/create', 'CatalogController@reviewCreate')->name('reviewCreate');
 });
 
 Auth::routes();

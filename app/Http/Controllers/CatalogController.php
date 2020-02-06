@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Movie;
+use App\Review;
+use Illuminate\Support\Facades\Auth;
 
 class CatalogController extends Controller
 {
@@ -80,5 +82,20 @@ class CatalogController extends Controller
         $movie->save();
 
         return redirect('/catalog/' . $id)->with('success', 'Pelicula tornada correctament');
+    }
+
+    public function reviewCreate(Request $request)
+    {
+        $movie_id = $request['movie'];
+        $review = new Review;
+        $review->title = $request['title'];
+        $review->stars = $request['stars'];
+        $review->review = $request['review'];
+        $review->movie_id = $movie_id;
+        $review->user_id = Auth::id();
+
+        $review->save();
+
+        return redirect('/catalog/' . $movie_id)->with('success', 'Comentari creat correctament');
     }
 }

@@ -50,6 +50,54 @@
                 <button type="submit" class="btn btn-danger">Eliminar Pelicula</button>
             </form>
 
+            <div class="reviews">
+                <h4>Comentaris</h4>
+    
+                @foreach($pelicula->reviews as $review)
+                    <div class="comment">
+                        <p class="title">{{ $review->title }}</p>
+
+                        @if ($review->stars == 1)
+                            <p>{{ $review->stars }} estrella</p>
+                        @else
+                            <p>{{ $review->stars }} estrelles</p>
+                        @endif
+
+                        <p>{{ $review->review }}</p>
+                        <span>{{ $review->created_at->format('d-m-Y') }} - {{ ucfirst($review->user->name) }}</span>
+    
+                    </div>
+                @endforeach
+            </div>
+
+            <form action="{{ route('reviewCreate') }}" method="POST" class="review-form">
+                @csrf
+                <div class="form-group">
+                    <label for="title">Títol:</label>
+                    <input type="text" name="title" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="stars">Valoració</label>
+                    <select name="stars" class="form-control">
+                        <option value="1">1 estrella</option>
+                        <option value="2">2 estrelles</option>
+                        <option value="3">3 estrelles</option>
+                        <option value="4">4 estrelles</option>
+                        <option value="5">5 estrelles</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="review">Comentari:</label>
+                    <textarea class="form-control" name="review" rows="5" placeholder="Dona'ns la teva opinió"></textarea>
+                </div>
+    
+                <input type="hidden" name="movie" value="{{ $pelicula->id }}">
+
+                <input type="submit" class="btn btn-success" value="Enviar">
+            </form>
         </div>
+
     </div>
 @endsection
