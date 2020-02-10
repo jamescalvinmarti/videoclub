@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriesTable extends Migration
+class AddMoviesCategoryId extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
-            $table->text('description');
-            $table->boolean('adult')->default(false);
-            $table->timestamps();
+        Schema::table('movies', function (Blueprint $table) {
+            $table->integer('category_id')->unsigned();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::table('movies', function (Blueprint $table) {
+            $table->dropColumn('category_id');
+        });
     }
 }

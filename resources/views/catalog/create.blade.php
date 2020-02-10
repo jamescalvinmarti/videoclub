@@ -16,6 +16,15 @@
                             <label for="title">Título</label>
                             <input type="text" name="title" id="title" class="form-control" required>
                         </div>
+
+                        <div class="form-group">
+                            <label for="category">Categoria</label>
+                            <select name="category" class="form-control">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
             
                         <div class="form-group">
                             <label for="year">Año</label>

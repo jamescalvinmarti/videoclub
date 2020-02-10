@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Movie;
+use App\Category;
 use App\Review;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,13 +24,15 @@ class CatalogController extends Controller
 
     public function create()
     {
-        return view('catalog.create');
+        $categories = Category::all();
+        return view('catalog.create', compact('categories'));
     }
 
     public function edit($id)
     {
         $movie = Movie::find($id);
-        return view('catalog.edit', compact('id', 'movie'));
+        $categories = Category::all();
+        return view('catalog.edit', compact('id', 'movie', 'categories'));
     }
 
     public function store(Request $request)
@@ -40,6 +43,7 @@ class CatalogController extends Controller
         $movie->director = $request['director'];
         $movie->poster = $request['poster'];
         $movie->synopsis = $request['synopsis'];
+        $movie->category_id = $request['category'];
         $movie->save();
 
         return redirect('/catalog')->with('success', 'Pelicula creada correctament');
@@ -53,6 +57,7 @@ class CatalogController extends Controller
         $movie->director = $request['director'];
         $movie->poster = $request['poster'];
         $movie->synopsis = $request['synopsis'];
+        $movie->category_id = $request['category'];
         $movie->save();
 
         return redirect('/catalog/' . $id)->with('success', 'Pelicula editada correctament');
@@ -97,5 +102,30 @@ class CatalogController extends Controller
         $review->save();
 
         return redirect('/catalog/' . $movie_id)->with('success', 'Comentari creat correctament');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request['search'];
+
+        if ($search == '') {
+            return redirect('/catalog');
+        }
+
+        $arrayPeliculas = Movie::where(
+            'title',
+            'like',
+            '%' . $search . '%'
+        )->orWhere(
+            'director',
+            'like',
+            '%' . $search . '%'
+        )->get();
+
+        if (count($arrayPeliculas) == 0) {
+            return redirect('/catalog')->with('warning', 'No hi ha hagut cap coincidència');
+        }
+
+        return view('catalog.index', compact('arrayPeliculas'));
     }
 }

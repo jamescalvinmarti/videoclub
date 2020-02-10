@@ -19,3 +19,19 @@
     color: #808080;
     font-size: 14px;
 }
+
+.review-form {
+    margin-bottom: 50px;
+}
+
+#add-category {
+    margin: 10px 0;
+}
+
+.btn a {
+    color: #fff;
+}
+
+nav {
+    margin-bottom: 20px;
+}

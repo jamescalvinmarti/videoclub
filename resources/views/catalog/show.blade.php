@@ -28,6 +28,7 @@
             <h1>{{ $pelicula->title }}</h1>
             <h3>Año: {{ $pelicula->year }}</h3>
             <h3>Director: {{ $pelicula->director }}</h3>
+            <h4>Categoria: <a href="{{ route('category.show', [$pelicula->category->id]) }}">{{ $pelicula->category->title }}</a></h4>
 
             <p><b>Resumen:</b> {{ $pelicula->synopsis }} </p>
 
@@ -74,7 +75,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="title">Títol:</label>
-                    <input type="text" name="title" class="form-control">
+                    <input type="text" name="title" class="form-control" placeholder="Resum del comentari">
                 </div>
 
                 <div class="form-group">
