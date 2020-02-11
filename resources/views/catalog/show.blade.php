@@ -51,6 +51,8 @@
                 <button type="submit" class="btn btn-danger">Eliminar Pelicula</button>
             </form>
 
+            <iframe id="trailer" src="{{ str_replace('watch?v=', 'embed/', $pelicula->trailer) }}" type="text/html" width="480" height="295" frameborder="0" allowfullscreen></iframe>
+
             <div class="reviews">
                 <h4>Comentaris</h4>
     

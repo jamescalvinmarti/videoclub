@@ -48,6 +48,11 @@
                             <textarea name="synopsis" id="synopsis" class="form-control" rows="3" required>{{ $movie->synopsis }}</textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label for="trailer">Trailer</label>
+                            <input type="text" name="trailer" class="form-control" required value="{{ $movie->trailer }}">
+                        </div>
+
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary" style="padding:8px 100px;margin-top:25px;">
                                 Modificar película

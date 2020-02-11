@@ -35,3 +35,27 @@
 nav {
     margin-bottom: 20px;
 }
+
+#search-bar {
+    margin-right: 20px;
+}
+
+#movies-list li {
+    margin: 20px 0;
+}
+
+#movies-list li img {
+    height: 200px;
+    width: 135px;
+}
+
+#movies-list li h3,
+#movies-list li h5 {
+    display: inline-block;
+    width: 200px;
+    margin: 0 50px;
+}
+
+#trailer {
+    margin-top: 50px;
+}

@@ -17,8 +17,12 @@
                     </li>
                     <li class="nav-item {{ Request::is('category') ? 'active' : ''}}">
                         <a class="nav-link" href="{{ route('category.index') }}">
-                            <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
                             Categories
+                        </a>
+                    </li>
+                    <li class="nav-item {{ Request::is('list') ? 'active' : ''}}">
+                        <a class="nav-link" href="{{ route('list') }}">
+                            Classificació
                         </a>
                     </li>
                     <li class="nav-item {{  Request::is('catalog/create') ? 'active' : ''}}">
@@ -28,7 +32,7 @@
                     </li>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0" action="{{ route('catalog.search') }}" method="POST">
+                <form class="form-inline my-2 my-lg-0" id="search-bar" action="{{ route('catalog.search') }}" method="POST">
                     @csrf
                     <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>

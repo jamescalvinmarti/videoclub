@@ -7,6 +7,7 @@ use App\Movie;
 use App\Category;
 use App\Review;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CatalogController extends Controller
 {
@@ -44,6 +45,7 @@ class CatalogController extends Controller
         $movie->poster = $request['poster'];
         $movie->synopsis = $request['synopsis'];
         $movie->category_id = $request['category'];
+        $movie->trailer = $request['trailer'];
         $movie->save();
 
         return redirect('/catalog')->with('success', 'Pelicula creada correctament');
@@ -58,6 +60,7 @@ class CatalogController extends Controller
         $movie->poster = $request['poster'];
         $movie->synopsis = $request['synopsis'];
         $movie->category_id = $request['category'];
+        $movie->trailer = $request['trailer'];
         $movie->save();
 
         return redirect('/catalog/' . $id)->with('success', 'Pelicula editada correctament');
@@ -127,5 +130,22 @@ class CatalogController extends Controller
         }
 
         return view('catalog.index', compact('arrayPeliculas'));
+    }
+
+    public function list()
+    {
+        $movies = Movie::leftJoin('reviews', 'reviews.movie_id', '=', 'movies.id')
+            ->select(array(
+                'movies.*',
+                DB::raw('AVG(stars) as reviews_average')
+            ))
+            ->groupBy('id')
+            ->orderBy('reviews_average', 'DESC')
+            ->limit(10)
+            ->get();
+
+        $points = '';
+
+        return view('list', compact('movies'));
     }
 }
