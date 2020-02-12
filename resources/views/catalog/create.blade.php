@@ -9,7 +9,7 @@
                 </div>
                 <div class="card-body" style="padding:30px">
         
-                    <form action="{{ route('catalog.store') }}" method="POST">
+                    <form action="{{ route('catalog.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
@@ -38,7 +38,7 @@
             
                         <div class="form-group">
                             <label for="poster">Poster</label>
-                            <input type="text" name="poster" id="poster" class="form-control" required>   
+                            <input type="file" name="poster" id="poster" class="form-control" required>   
                         </div>
             
                         <div class="form-group">

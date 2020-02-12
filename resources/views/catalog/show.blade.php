@@ -17,11 +17,13 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="show-view">
 
         <div class="col-sm-4">
 
-            <img src="{{ $pelicula->poster }}" alt="{{ $pelicula->title }}">
+            <!-- Dos imatges una per si es un enllaç i l'altre per si es una imatge del server -->
+            <img src="{{ $pelicula->poster }}" onerror="this.style.display='none'">
+            <img src="{{ asset('img/' . $pelicula->poster) }}" onerror="this.style.display='none'">
 
         </div>
         <div class="col-sm-8">

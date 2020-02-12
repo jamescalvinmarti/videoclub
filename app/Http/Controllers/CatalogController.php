@@ -8,6 +8,7 @@ use App\Category;
 use App\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class CatalogController extends Controller
 {
@@ -38,11 +39,22 @@ class CatalogController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'poster' => ['required', 'image'],
+        ]);
+
         $movie = new Movie;
+
+        $image = $request['poster'];
+        $original_path = public_path() . '/img';
+        $filename = time() . $image->getClientOriginalName();
+        $image->move($original_path, $filename);
+
         $movie->title = $request['title'];
         $movie->year = $request['year'];
         $movie->director = $request['director'];
-        $movie->poster = $request['poster'];
+        $movie->poster = $filename;
         $movie->synopsis = $request['synopsis'];
         $movie->category_id = $request['category'];
         $movie->trailer = $request['trailer'];
@@ -54,10 +66,22 @@ class CatalogController extends Controller
     public function update(Request $request, $id)
     {
         $movie = Movie::find($id);
+
+        if ($request['poster']) {
+            $poster = public_path() . '/img/' . $movie->poster;
+            if (File::exists($poster)) {
+                File::delete($poster);
+            }
+            $image = $request['poster'];
+            $original_path = public_path() . '/img';
+            $filename = time() . $image->getClientOriginalName();
+            $image->move($original_path, $filename);
+            $movie->poster = $filename;
+        }
+
         $movie->title = $request['title'];
         $movie->year = $request['year'];
         $movie->director = $request['director'];
-        $movie->poster = $request['poster'];
         $movie->synopsis = $request['synopsis'];
         $movie->category_id = $request['category'];
         $movie->trailer = $request['trailer'];
@@ -69,6 +93,12 @@ class CatalogController extends Controller
     public function destroy($id)
     {
         $movie = Movie::find($id);
+
+        $poster = public_path() . '/img/' . $movie->poster;
+        if (File::exists($poster)) {
+            File::delete($poster);
+        }
+
         $movie->delete();
 
         return redirect()->route('catalog.index')->with('warning', 'Pelicula eliminada correctament');

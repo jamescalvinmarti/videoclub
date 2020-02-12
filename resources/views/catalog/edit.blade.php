@@ -10,7 +10,7 @@
 
                 <div class="card-body" style="padding:30px">
         
-                    <form action="{{ route('catalog.update', [$id]) }}" method="POST">
+                    <form action="{{ route('catalog.update', [$id]) }}" method="POST" enctype="multipart/form-data">
                         {{ method_field('PUT') }}
                         @csrf
             
@@ -40,7 +40,7 @@
             
                         <div class="form-group">
                             <label for="poster">Poster</label>
-                            <input type="text" name="poster" id="poster" class="form-control" value="{{ $movie->poster }}" required>   
+                            <input type="file" name="poster" id="poster" class="form-control">   
                         </div>
 
                         <div class="form-group">
