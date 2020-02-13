@@ -11,6 +11,8 @@
                 <img src="{{ asset('img/' . $movie->poster) }}" onerror="this.style.display='none'" style="height:200px">
 
                 <h3><a href="{{ route('catalog.show', [$movie->id]) }}">{{ $movie->title }}</a></h3>
+                
+                <!-- Nota total de la pel·lícula -->
                 <h5>{{ $movie->reviews()->avg('stars') }}</h5>
             </li>
         @endforeach

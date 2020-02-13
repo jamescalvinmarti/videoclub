@@ -41,20 +41,30 @@ class CatalogController extends Controller
     {
         $this->validate($request, [
             'title' => ['required', 'string'],
+            'year' => ['required', 'integer'],
+            'director' => ['required', 'string'],
             'poster' => ['required', 'image'],
+            'synopsis' => ['required', 'string'],
+            'category' => ['required', 'integer'],
+            'trailer' => ['required', 'string']
         ]);
 
         $movie = new Movie;
 
+        // agafar la imatge del formulari
         $image = $request['poster'];
+        // directori on es guardara la imatge
         $original_path = public_path() . '/img';
+        // nom que tindrà la imatge. timestamp més nom original de la imatge
         $filename = time() . $image->getClientOriginalName();
+        // moure la imatge al directori
         $image->move($original_path, $filename);
+        // definir la imatge de la pelicula
+        $movie->poster = $filename;
 
         $movie->title = $request['title'];
         $movie->year = $request['year'];
         $movie->director = $request['director'];
-        $movie->poster = $filename;
         $movie->synopsis = $request['synopsis'];
         $movie->category_id = $request['category'];
         $movie->trailer = $request['trailer'];
@@ -65,17 +75,36 @@ class CatalogController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'year' => ['required', 'integer'],
+            'director' => ['required', 'string'],
+            'poster' => ['image'],
+            'synopsis' => ['required', 'string'],
+            'category' => ['required', 'integer'],
+            'trailer' => ['required', 'string']
+        ]);
+
         $movie = Movie::find($id);
 
+        // si el camp poster conté una imatge eliminar imatge existent i substituir-la amb la nova
+        // sinó es manté la que ja tenia
         if ($request['poster']) {
+            // ubicar la imatge
             $poster = public_path() . '/img/' . $movie->poster;
+            // eliminar la imatge antiga si existeix
             if (File::exists($poster)) {
                 File::delete($poster);
             }
+
             $image = $request['poster'];
+            // directori on es guardara la imatge
             $original_path = public_path() . '/img';
+            // nom que tindrà la imatge. timestamp més nom original de la imatge
             $filename = time() . $image->getClientOriginalName();
+            // moure la imatge al directori
             $image->move($original_path, $filename);
+            // definir la imatge de la pelicula
             $movie->poster = $filename;
         }
 
@@ -94,7 +123,9 @@ class CatalogController extends Controller
     {
         $movie = Movie::find($id);
 
+        // agafar la imatge de la pel·lícula
         $poster = public_path() . '/img/' . $movie->poster;
+        // eliminar imatge si existeix
         if (File::exists($poster)) {
             File::delete($poster);
         }
@@ -124,7 +155,9 @@ class CatalogController extends Controller
 
     public function reviewCreate(Request $request)
     {
+        // movie es un input hidden del formulari on passo l'id de la pelicula
         $movie_id = $request['movie'];
+
         $review = new Review;
         $review->title = $request['title'];
         $review->stars = $request['stars'];
@@ -139,8 +172,10 @@ class CatalogController extends Controller
 
     public function search(Request $request)
     {
+        // paraula o frase que l'usuari busca
         $search = $request['search'];
 
+        // si no ha escrit res redireccionar a la pàgina principal
         if ($search == '') {
             return redirect('/catalog');
         }
@@ -155,6 +190,7 @@ class CatalogController extends Controller
             '%' . $search . '%'
         )->get();
 
+        // si no hi han resultats redireccionar a la pàgina principal amb un avís
         if (count($arrayPeliculas) == 0) {
             return redirect('/catalog')->with('warning', 'No hi ha hagut cap coincidència');
         }
@@ -164,6 +200,7 @@ class CatalogController extends Controller
 
     public function list()
     {
+        // llista de les pel·lícules millor puntuades
         $movies = Movie::leftJoin('reviews', 'reviews.movie_id', '=', 'movies.id')
             ->select(array(
                 'movies.*',

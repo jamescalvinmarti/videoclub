@@ -44,7 +44,6 @@
             
             <a class="btn btn-warning" href="{{ route('catalog.edit', [$pelicula->id]) }}">Editar Pelicula</a>
             <a class="btn btn-light" href="{{ action('CatalogController@index') }}">Volver al listado</a>
-            {{-- <a class="btn btn-danger" href="{{ route('catalog.destroy', [$pelicula->id]) }}">Eliminar Pelicula</a> --}}
 
             <form action="{{ route('catalog.destroy' , $pelicula->id)}}" method="POST" style="display: inline-block">
                 <input name="_method" type="hidden" value="DELETE">
@@ -53,6 +52,7 @@
                 <button type="submit" class="btn btn-danger">Eliminar Pelicula</button>
             </form>
 
+            <!-- TRAILER DE LA PELICULA -->
             <iframe id="trailer" src="{{ str_replace('watch?v=', 'embed/', $pelicula->trailer) }}" type="text/html" width="480" height="295" frameborder="0" allowfullscreen></iframe>
 
             <div class="reviews">

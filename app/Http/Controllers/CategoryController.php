@@ -7,11 +7,6 @@ use App\Category;
 
 class CategoryController extends Controller
 {
-
-    public function __construct()
-    {
-        $categories = Category::all();
-    }
     /**
      * Display a listing of the resource.
      *
@@ -41,6 +36,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'adult' => ['required', 'string'],
+        ]);
+
         $category = new Category;
         $adult = $request['adult'];
         $category->title = $request['title'];
@@ -88,6 +89,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'adult' => ['required', 'string'],
+        ]);
+
         $adult = $request['adult'];
         $category = Category::findOrFail($id);
         $category->title = $request['title'];
