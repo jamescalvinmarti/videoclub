@@ -155,6 +155,12 @@ class CatalogController extends Controller
 
     public function reviewCreate(Request $request)
     {
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'stars' => ['required', 'integer'],
+            'review' => ['required', 'string']
+        ]);
+
         // movie es un input hidden del formulari on passo l'id de la pelicula
         $movie_id = $request['movie'];
 

@@ -35,7 +35,7 @@ class APICatalogController extends Controller
         if ($request['year']) {
             $movie->year = $request['year'];
         } else {
-            $movie->year = 0;
+            $movie->year = '';
         }
 
         if ($request['director']) {
@@ -55,6 +55,19 @@ class APICatalogController extends Controller
         } else {
             $movie->synopsis = '';
         }
+
+        if ($request['category']) {
+            $movie->category_id = $request['category'];
+        } else {
+            $movie->category_id = 1;
+        }
+
+        if ($request['trailer']) {
+            $movie->trailer = $request['trailer'];
+        } else {
+            $movie->trailer = 'trailer';
+        }
+
         $movie->save();
 
         return response()->json([
