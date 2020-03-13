@@ -24,7 +24,7 @@ class CatalogController extends TestCase
 
         Executar migració i seed a la base de dades
 
-            php artisan migrate:refresh --seed --database=mysql_testing
+            php artisan migrate --seed --database=mysql_testing
     */
 
 
